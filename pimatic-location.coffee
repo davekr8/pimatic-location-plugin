@@ -60,7 +60,18 @@ module.exports = (env) ->
           unit: "m"
           acronym: 'DIST'
       }
-
+      @attributes.lat = {
+          label: "Latitude"
+          description: "Latitude" 
+          type: "number"
+          acronym: 'LAT'
+      }
+      @attributes.long = {
+          label: "Longitude"
+          description: "Longitude" 
+          type: "number"
+          acronym: 'LONG'
+      }
       if @useMaps
         @attributes.routeDistance = {
           label: "Route Distance"
@@ -114,7 +125,9 @@ module.exports = (env) ->
     getRouteDistance: -> Promise.resolve(@_routeDistance)
     getEta: -> Promise.resolve(@_eta)
     getAddress: -> Promise.resolve(@_address)
-
+    getLat: -> Promise.resolve(@_lat)
+    getLong: -> Promise.resolve(@_long)
+    
     updateLocation: (long, lat, updateAddress) ->
       start_loc = {
         lat: lat
@@ -133,7 +146,11 @@ module.exports = (env) ->
      
       @_linearDistance = linearDistance
       @emit 'linearDistance', @_linearDistance
-
+      @_lat = lat
+      @emit 'lat', @_lat
+      @_long = long
+      @emit 'long', @_long
+      
       if @useMaps is true
         options = {}
         use_ssl = false
