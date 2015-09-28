@@ -146,10 +146,6 @@ module.exports = (env) ->
      
       @_linearDistance = linearDistance
       @emit 'linearDistance', @_linearDistance
-      @_lat = lat
-      @emit 'lat', @_lat
-      @_long = long
-      @emit 'long', @_long
       
       if @useMaps is true
         options = {}
@@ -175,12 +171,20 @@ module.exports = (env) ->
           
               @emit 'routeDistance', route_distance
               @emit 'eta', eta
+              
               if updateAddress is 1
                 @_address = address
-                @emit 'address', @_address
+                @_lat = lat
+                @_long = long
               else
                 @_address = '-'
-                @emit 'address', @_address
+                @_lat = 0
+                @_long = 0
+
+              @emit 'lat', @_lat
+              @emit 'long', @_long
+              @emit 'address', @_address
+              
             catch error
               env.logger.error("Didn't received correct Gmaps-Api response!")
               env.logger.debug("Gmaps-Api response: "+result)
